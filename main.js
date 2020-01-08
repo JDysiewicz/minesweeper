@@ -100,7 +100,7 @@ function addClasses(){
 
             // If its a bomb then....
             if (item.classList.contains("bomb")){
-                console.log("kaboom")
+                gameOver();
             }
 
             else if (item.classList.contains("covered")){
@@ -115,6 +115,17 @@ function addClasses(){
 };
 
 
+function gameOver(){
+    document.querySelectorAll(".covered").forEach(item => {
+        item.classList.remove("covered");
+        item.classList.add("uncovered");
+    })
+    setTimeout(function(){
+        alert("Game Over!");
+        document.location.reload();
+    }, 50);
+    
+};
 
 // Creates the table
 for (var i = 0; i < 9; i++){
@@ -125,6 +136,10 @@ addClasses();
 
 // Fills x bombs into the table at random
 populateBombs(5);
+
+
+
+
 
 
 
