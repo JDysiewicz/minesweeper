@@ -1,0 +1,36 @@
+- create table layout in html
+- style it modernish (scss)
+- clock/timer (JS timer)
+- flag mode, select mode (button)
+- see how big to make grid; generate squres with javascript
+- number of bombs; random locations (assign random value to html table data)
+    - <td value="two"> </td> for 2 adjacent bombs, <td value="bomb"> </td>, <td value="empty"> </td> etc
+    - need a way to count number of bombsa
+
+- 3 situations:
+    - Is a bomb (game over)
+    - Is a number (shows number of adjacent mine)
+    - Is empty space (reveals all other empty space if every surrounding tile is empty; recursive?)
+
+
+JS functions - maybe seperate into different JS files too
+    - create grid
+    - Position bombs in random locations    
+    - Recursilvy reveal empty spaces
+    - count adjacent bomb
+    - Game over if bomb
+    - flag sites
+
+
+-other note; add linux stuff to CV maybe?
+
+
+
+What I've Learned
+-------------------
+- Creating tables dynamically with JS
+- Altering classes dynamically with JS
+- Randomness in JS - assign bomb class to a random number of boxes via Math.floor
+- While loops in JS (Assiing a set number of bombs)
+
+- Working on the recursive algo for unvealing adjacent boxes

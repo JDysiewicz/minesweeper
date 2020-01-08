@@ -1,0 +1,12 @@
+.covered {
+    border: 1px solid black;
+    padding: 5px;
+    &:hover{
+        cursor: pointer;
+
+    }
+}
+
+.bomb{
+    background: red;
+}

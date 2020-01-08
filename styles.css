@@ -1,0 +1,13 @@
+.covered {
+  border: 1px solid black;
+  padding: 5px;
+}
+
+.covered:hover {
+  cursor: pointer;
+}
+
+.bomb {
+  background: red;
+}
+/*# sourceMappingURL=styles.css.map */
