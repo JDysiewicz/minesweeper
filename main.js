@@ -1,17 +1,11 @@
-// Creates new row for use in createTable function
+// Creates new row with "size" number of cells
 function createNewRow(size){
     var newRow = document.querySelector(".grid").insertRow(0);
     for (var j = 0; j < size; j++){
         var cell = newRow.insertCell(j);
         cell.classList.add(`row-${i}-col-${j}`, "covered")
     }
-}
-
-// CURRENTLY WORKING ON FUNCITON TO CREATE THE NUMBER OF BOMBS SURROUNDING EACH CELL; could just do in add class?
-// Alter the uncover adjacent to take a function as an input; then use that!!!
-//e.g functino selectAdjacent(function x){
-    //if rowNo > 0{ function x}
-
+};
 
 
 // Fuction to reveal a square based on its rowNo/colNo
@@ -32,7 +26,7 @@ function revealCell(rowNo, colNo){
 };
 
 
-// Uncovers adjacent squares
+// Selects adjacent squares and performs func on them if not out of range
 function selectAdjacentCells(rowNo, colNo, func){
     // Reveal the selected box
 
@@ -76,7 +70,8 @@ function selectAdjacentCells(rowNo, colNo, func){
         func(rowNo-1, colNo-1);
     };
 
-}
+};
+
 
 // Places bombs in the table
 function populateBombs(bombNo){
@@ -123,6 +118,7 @@ function RunGame(){
 };
 
 
+// If clicks on bomb
 function gameOver(){
     document.querySelectorAll(".covered").forEach(item => {
         item.classList.remove("covered");
@@ -135,13 +131,19 @@ function gameOver(){
     
 };
 
+
+// Sets values for the number of adjacent bombs in innerHTML
 function addFlags(rowNo, colNo){
     var cell = document.querySelector(`.row-${rowNo}-col-${colNo}`);
-    cell.classList.add("flag");
-    if (!parseInt(cell.innerHTML)) {cell.innerHTML = "1"}
-    else{cell.innerHTML = parseInt(cell.innerHTML) + 1};
+    if (!cell.classList.contains("bomb")){
+        cell.classList.add("flag");
+        if (!parseInt(cell.innerHTML)) {cell.innerHTML = "1"}
+        else{cell.innerHTML = parseInt(cell.innerHTML) + 1};
+    };
 };
 
+
+// initiator function that counts the number of bombs adjacent to a tile
 function countFlag(){
     document.querySelectorAll(".bomb").forEach( item => {
         var rowNo = parseInt(item.classList[0].split("-")[1]);
@@ -150,31 +152,26 @@ function countFlag(){
     });
 };
 
-function removeHTMLBomb(){
-    document.querySelectorAll(".bomb").forEach( item => {
-        item.innerHTML = "";
-    });
-}
 
 
-// Size of table to be created
-size = 15;
+
 // Creates the table
+const size = 15;
+const bombCount = 40;
 for (var i = 0; i < size; i++){
     createNewRow(size);
 };
-
 
 // Adds classes to the cells in the table
 RunGame();
 
 // Fills x bombs into the table at random
-populateBombs(40);
+populateBombs(bombCount);
 
 // Adds the flags
 countFlag();
 
-removeHTMLBomb();
+
 
 
 
