@@ -1,6 +1,29 @@
+html {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+h1 {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
 .covered {
-  border: 1px solid black;
-  padding: 5px;
+  background: grey;
 }
 
 .covered:hover {
@@ -9,5 +32,17 @@
 
 .bomb {
   background: red;
+}
+
+table {
+  table-layout: fixed;
+  width: 500px;
+}
+
+td {
+  border: 1px solid black;
+  padding: 15px;
+  width: 30px;
+  height: 60px;
 }
 /*# sourceMappingURL=styles.css.map */

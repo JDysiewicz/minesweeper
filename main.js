@@ -3,7 +3,6 @@ function createNewRow(){
     var newRow = document.querySelector(".grid").insertRow(0);
     for (var j = 0; j < 9; j++){
         var cell = newRow.insertCell(j);
-        cell.innerHTML = `${j}`
         cell.classList.add(`row${i}-col${j}`, "covered")
     }
 }
@@ -28,48 +27,48 @@ function revealCell(rowNo, colNo){
 
 
 // Uncovers adjacent squares
-function uncoverAdjacent(rowNo, colNo){
+function selectAdjacentCells(rowNo, colNo, func){
     // Reveal the selected box
-    revealCell(rowNo, colNo);
+    func(rowNo, colNo);
 
     // Reveal the left cell
     if (colNo > 0){
-        revealCell(rowNo, colNo-1);
+        func(rowNo, colNo-1);
     };
 
     // reveal to upper left cell
     if (rowNo < 8 && colNo > 0){
-        revealCell(rowNo+1, colNo-1);
+        func(rowNo+1, colNo-1);
     };
 
     // reveal upper cell
     if (rowNo < 8){
-        revealCell(rowNo+1, colNo);
+        func(rowNo+1, colNo);
     };
 
     // reveal upper right cell
     if (rowNo < 8 && colNo < 8){
-        revealCell(rowNo+1, colNo+1);
+        func(rowNo+1, colNo+1);
     };
 
     // reveal right cell
     if (colNo < 8){
-        revealCell(rowNo, colNo+1);
+        func(rowNo, colNo+1);
     };
 
     // reveal bottom right cell
     if (rowNo > 0 && colNo < 8){   
-        revealCell(rowNo-1, colNo+1);
+        func(rowNo-1, colNo+1);
     };
 
     // reveal bottom cell
     if (rowNo > 0){
-        revealCell(rowNo-1, colNo);
+        func(rowNo-1, colNo);
     };
 
     // reveal bottom left cell
     if (rowNo > 0 && colNo > 0){
-        revealCell(rowNo-1, colNo-1);
+        func(rowNo-1, colNo-1);
     };
 
 }
@@ -93,7 +92,7 @@ function populateBombs(bombNo){
 
 
 // Adds eventlistenrs and creates the base classes for each cell
-function addClasses(){
+function RunGame(){
     var boxes = document.querySelectorAll(".covered").forEach(item => {
         item.addEventListener("click", event =>{
             // BEHAVIOUR WHEN CLICKED HERE
@@ -102,12 +101,15 @@ function addClasses(){
             if (item.classList.contains("bomb")){
                 gameOver();
             }
-
+            else if (item.classList.contains("flag")){
+                item.classList.remove("covered")
+                item.classList.add("uncovered")
+            }
             else if (item.classList.contains("covered")){
                 console.log("safe click")
                 var rowNo = parseInt(item.classList[0][3])
                 var colNo = parseInt(item.classList[0][8])
-                uncoverAdjacent(rowNo, colNo);
+                selectAdjacentCells(rowNo, colNo, revealCell);
                 
             }
         });
@@ -119,7 +121,7 @@ function gameOver(){
     document.querySelectorAll(".covered").forEach(item => {
         item.classList.remove("covered");
         item.classList.add("uncovered");
-    })
+    });
     setTimeout(function(){
         alert("Game Over!");
         document.location.reload();
@@ -127,15 +129,43 @@ function gameOver(){
     
 };
 
+function addFlags(rowNo, colNo){
+    var cell = document.querySelector(`.row${rowNo}-col${colNo}`);
+    cell.classList.add("flag");
+    if (!parseInt(cell.innerHTML)) {cell.innerHTML = "1"}
+    else{cell.innerHTML = parseInt(cell.innerHTML) + 1};
+};
+
+function countFlag(){
+    document.querySelectorAll(".bomb").forEach( item => {
+        var rowNo = parseInt(item.classList[0][3]);
+        var colNo = parseInt(item.classList[0][8]);
+        selectAdjacentCells(rowNo, colNo, addFlags);
+    });
+};
+
+function removeHTMLBomb(){
+    document.querySelectorAll(".bomb").forEach( item => {
+        item.innerHTML = "";
+    });
+}
+
 // Creates the table
 for (var i = 0; i < 9; i++){
     createNewRow();
 };
+
+
 // Adds classes to the cells in the table
-addClasses();
+RunGame();
 
 // Fills x bombs into the table at random
 populateBombs(5);
+
+// Adds the flags
+countFlag();
+
+removeHTMLBomb();
 
 
 

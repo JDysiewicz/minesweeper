@@ -1,6 +1,17 @@
-.covered {
-    border: 1px solid black;
-    padding: 5px;
+html{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+h1{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.covered{
+    background: grey;
     &:hover{
         cursor: pointer;
 
@@ -9,4 +20,16 @@
 
 .bomb{
     background: red;
+}
+
+table{
+    table-layout: fixed;
+    width: 500px;
+}
+
+td{
+    border: 1px solid black;
+    padding: 15px;
+    width: 30px;
+    height: 60px;
 }
