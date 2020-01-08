@@ -1,9 +1,9 @@
 // Creates new row for use in createTable function
-function createNewRow(){
+function createNewRow(size){
     var newRow = document.querySelector(".grid").insertRow(0);
-    for (var j = 0; j < 9; j++){
+    for (var j = 0; j < size; j++){
         var cell = newRow.insertCell(j);
-        cell.classList.add(`row${i}-col${j}`, "covered")
+        cell.classList.add(`row-${i}-col-${j}`, "covered")
     }
 }
 
@@ -16,20 +16,25 @@ function createNewRow(){
 
 // Fuction to reveal a square based on its rowNo/colNo
 function revealCell(rowNo, colNo){
-    var boxuncover = document.querySelector(`.row${rowNo}-col${colNo}`);
+    var boxuncover = document.querySelector(`.row-${rowNo}-col-${colNo}`);
 
-    // If it is covered and is not a bomb (replace with flag)
-    if (boxuncover.classList.contains("covered") && !boxuncover.classList.contains("bomb")){
+    if (boxuncover.classList.contains("flag")){
         boxuncover.classList.remove("covered");
         boxuncover.classList.add("uncovered");
     }
-}
+    // If it is covered and is not a bomb (replace with flag)
+    else if (boxuncover.classList.contains("covered") && !boxuncover.classList.contains("bomb")){
+        boxuncover.classList.remove("covered");
+        boxuncover.classList.add("uncovered");
+        selectAdjacentCells(rowNo, colNo, revealCell);
+    }
+    
+};
 
 
 // Uncovers adjacent squares
 function selectAdjacentCells(rowNo, colNo, func){
     // Reveal the selected box
-    func(rowNo, colNo);
 
     // Reveal the left cell
     if (colNo > 0){
@@ -37,12 +42,12 @@ function selectAdjacentCells(rowNo, colNo, func){
     };
 
     // reveal to upper left cell
-    if (rowNo < 8 && colNo > 0){
+    if (rowNo < size-1 && colNo > 0){
         func(rowNo+1, colNo-1);
     };
 
     // reveal upper cell
-    if (rowNo < 8){
+    if (rowNo < size-1){
         func(rowNo+1, colNo);
     };
 
@@ -52,12 +57,12 @@ function selectAdjacentCells(rowNo, colNo, func){
     };
 
     // reveal right cell
-    if (colNo < 8){
+    if (colNo < size-1){
         func(rowNo, colNo+1);
     };
 
     // reveal bottom right cell
-    if (rowNo > 0 && colNo < 8){   
+    if (rowNo > 0 && colNo < size-1){   
         func(rowNo-1, colNo+1);
     };
 
@@ -77,10 +82,10 @@ function selectAdjacentCells(rowNo, colNo, func){
 function populateBombs(bombNo){
     var i = 0;
     while (i < bombNo){
-        var rowIdx = Math.floor(Math.random() * 9);
-        var colIdx = Math.floor(Math.random() * 9);
+        var rowIdx = Math.floor(Math.random() * size);
+        var colIdx = Math.floor(Math.random() * size);
         console.log(rowIdx, colIdx);
-        var bombcell = document.querySelector(`.row${rowIdx}-col${colIdx}`);
+        var bombcell = document.querySelector(`.row-${rowIdx}-col-${colIdx}`);
         if (!bombcell.classList.contains("bomb")){
             bombcell.classList.add("bomb");
             i++;
@@ -107,8 +112,9 @@ function RunGame(){
             }
             else if (item.classList.contains("covered")){
                 console.log("safe click")
-                var rowNo = parseInt(item.classList[0][3])
-                var colNo = parseInt(item.classList[0][8])
+                var rowNo = parseInt(item.classList[0].split("-")[1]);
+                var colNo = parseInt(item.classList[0].split("-")[3]);
+                revealCell(rowNo, colNo);
                 selectAdjacentCells(rowNo, colNo, revealCell);
                 
             }
@@ -130,7 +136,7 @@ function gameOver(){
 };
 
 function addFlags(rowNo, colNo){
-    var cell = document.querySelector(`.row${rowNo}-col${colNo}`);
+    var cell = document.querySelector(`.row-${rowNo}-col-${colNo}`);
     cell.classList.add("flag");
     if (!parseInt(cell.innerHTML)) {cell.innerHTML = "1"}
     else{cell.innerHTML = parseInt(cell.innerHTML) + 1};
@@ -138,8 +144,8 @@ function addFlags(rowNo, colNo){
 
 function countFlag(){
     document.querySelectorAll(".bomb").forEach( item => {
-        var rowNo = parseInt(item.classList[0][3]);
-        var colNo = parseInt(item.classList[0][8]);
+        var rowNo = parseInt(item.classList[0].split("-")[1]);
+        var colNo = parseInt(item.classList[0].split("-")[3]);
         selectAdjacentCells(rowNo, colNo, addFlags);
     });
 };
@@ -150,9 +156,12 @@ function removeHTMLBomb(){
     });
 }
 
+
+// Size of table to be created
+size = 15;
 // Creates the table
-for (var i = 0; i < 9; i++){
-    createNewRow();
+for (var i = 0; i < size; i++){
+    createNewRow(size);
 };
 
 
@@ -160,12 +169,13 @@ for (var i = 0; i < 9; i++){
 RunGame();
 
 // Fills x bombs into the table at random
-populateBombs(5);
+populateBombs(40);
 
 // Adds the flags
 countFlag();
 
 removeHTMLBomb();
+
 
 
 

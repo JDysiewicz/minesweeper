@@ -24,6 +24,7 @@ h1 {
 
 .covered {
   background: grey;
+  color: grey;
 }
 
 .covered:hover {
@@ -37,12 +38,15 @@ h1 {
 table {
   table-layout: fixed;
   width: 500px;
+  height: 250px;
 }
 
 td {
+  display: table-cell;
   border: 1px solid black;
-  padding: 15px;
-  width: 30px;
-  height: 60px;
+}
+
+td:empty::after {
+  content: "\00a0";
 }
 /*# sourceMappingURL=styles.css.map */

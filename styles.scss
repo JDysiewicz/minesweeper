@@ -1,3 +1,5 @@
+$cellColorUnc: grey;
+
 html{
     display: flex;
     justify-content: center;
@@ -11,7 +13,8 @@ h1{
 }
 
 .covered{
-    background: grey;
+    background: $cellColorUnc;
+    color: $cellColorUnc;
     &:hover{
         cursor: pointer;
 
@@ -25,11 +28,15 @@ h1{
 table{
     table-layout: fixed;
     width: 500px;
+    height: 250px;
 }
 
 td{
+    display: table-cell;
     border: 1px solid black;
-    padding: 15px;
-    width: 30px;
-    height: 60px;
+
+    // Prevents collapse of empty cells; all same width/height
+    &:empty::after{
+        content: "\00a0";
+    }
 }
