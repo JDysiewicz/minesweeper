@@ -102,10 +102,12 @@ function RunGame(){
                 if (flagCount == bombCount && item.classList.contains("flagged")){
                     item.classList.remove("flagged");
                     flagCount = document.querySelectorAll(".flagged").length
+                    document.querySelector(".flagcount").innerHTML = flagCount +"/"+bombCount;
                 }
                 else if (flagCount < bombCount){
                     item.classList.toggle("flagged");
                     flagCount = document.querySelectorAll(".flagged").length
+                    document.querySelector(".flagcount").innerHTML = flagCount +"/"+bombCount;
                     var victoryState = victoryCheck();
                     if (victoryState == 1){
                         victory();
@@ -201,10 +203,12 @@ function flagging(){
         if (flagCount == bombCount && item.classList.contains("flagged")){
             item.classList.remove("flagged");
             flagCount = document.querySelectorAll(".flagged").length
+            document.querySelector(".flagcount").innerHTML = flagCount +"/"+bombCount;
         }
         else if (flagCount < bombCount && !item.classList.contains("uncovered")){
             item.classList.toggle("flagged");
             flagCount = document.querySelectorAll(".flagged").length
+            document.querySelector(".flagcount").innerHTML = flagCount +"/"+bombCount;
             var victoryState = victoryCheck();
             if (victoryState == 1){
                 victory();
@@ -241,7 +245,7 @@ const bombCount = 40;
 var flagCount = 0;
 var inputMode = "normal";
 document.querySelector(".gameBoard").addEventListener("contextmenu", e => e.preventDefault());
-
+document.querySelector(".flagcount").innerHTML = "0/" + bombCount;
 
 // Creates table
 for (var i = 0; i < size; i++){
