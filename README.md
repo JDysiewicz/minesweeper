@@ -2,7 +2,6 @@
 Minesweeper with HTML/CSS/JS - first JS project
 
 ## What I've Learned
--------------------
 - Creating **tables** dynamically with JS
 - Altering classes dynamically with JS
 - **Randomness in JS** - assign bomb class to a random number of boxes via *Math.floor
