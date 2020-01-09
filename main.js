@@ -142,8 +142,9 @@ function gameOver(){
         item.classList.add("uncovered", "bombUncovered");
         if (item.classList.contains("flagged")){item.classList.remove("flagged")}
     });
+    clearInterval();
     setTimeout(function(){
-        alert("Game Over!");
+        alert("Game Over!\nTime = " + document.getElementById("minutes").innerHTML + "m " + document.getElementById("seconds").innerHTML + "s" );
         document.location.reload();
     }, 50);
     
@@ -163,8 +164,9 @@ function victoryCheck(){
 
 // Displays victory screen
 function victory(){
+    clearInterval();
     setTimeout(function(){
-        alert("Congratuations!");
+        alert("Congratulations!\nTime = " + document.getElementById("minutes").innerHTML + "m " + document.getElementById("seconds").innerHTML + "s" );
         document.location.reload();
     }, 50);
     
@@ -194,24 +196,52 @@ function countBombs(){
 
 // changes inputmode to flagging when button clicked
 function flagging(){
-    const flagButton = document.querySelector(".flagButton")
-    flagButton.addEventListener("click", function(){
+    document.querySelectorAll(".covered").forEach(item =>{
+        item.addEventListener("contextmenu", function(){
+        if (flagCount == bombCount && item.classList.contains("flagged")){
+            item.classList.remove("flagged");
+            flagCount = document.querySelectorAll(".flagged").length
+        }
+        else if (flagCount < bombCount && !item.classList.contains("uncovered")){
+            item.classList.toggle("flagged");
+            flagCount = document.querySelectorAll(".flagged").length
+            var victoryState = victoryCheck();
+            if (victoryState == 1){
+                victory();
+            }
+        }
+    })});
+    const flagText = document.querySelector(".flagButton")
+    flagText.addEventListener("click", function(){
         if (inputMode == "flag"){
-            flagButton.innerHTML = "U";
+            document.querySelector(".flagText").innerHTML = "U";
             inputMode = "normal";
         }
         else{
-            flagButton.innerHTML = "F";
+            document.querySelector(".flagText").innerHTML = "F";
             inputMode = "flag";
         };
     });
 };
+
+
+function timer(){
+    var sec = 0;
+    function pad ( val ) { return val > 9 ? val : "0" + val; }
+    setInterval( function(){
+        document.getElementById("seconds").innerHTML=pad(++sec%60);
+        document.getElementById("minutes").innerHTML=pad(parseInt(sec/60,10));
+    }, 1000);
+};
+
 
 // Initial game parameters
 const size = 20;
 const bombCount = 40;
 var flagCount = 0;
 var inputMode = "normal";
+document.querySelector(".gameBoard").addEventListener("contextmenu", e => e.preventDefault());
+
 
 // Creates table
 for (var i = 0; i < size; i++){
@@ -231,7 +261,8 @@ countBombs();
 // creates ability to flag mines
 flagging();
 
-
+// Sets timer to start counting
+timer();
 
 
 

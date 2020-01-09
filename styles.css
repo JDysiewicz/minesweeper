@@ -8,6 +8,20 @@ html {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+  background: -webkit-gradient(linear, left top, left bottom, from(#66C3FF), to(#D4AFB9));
+  background: linear-gradient(#66C3FF, #D4AFB9);
+  color: #363732;
+  font-family: "Open Sans", sans-serif;
+}
+
+p, .timer {
+  font-size: large;
+  font-weight: bold;
+}
+
+h1 {
+  margin: 0;
+  padding: 0;
 }
 
 .title {
@@ -63,13 +77,14 @@ td:empty::after {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  background-color: blue;
+  background-color: #363732;
   border: 2px solid black;
-  width: 30px;
-  height: 30px;
+  width: 40px;
+  height: 40px;
   margin: 10px;
   text-align: center;
-  color: white;
+  color: #DCE1E9;
+  font-weight: strong;
 }
 
 .flagButton:hover {
@@ -108,5 +123,6 @@ td:empty::after {
 
 .gameBoard {
   width: 500px;
+  background-color: #DCE1E9;
 }
 /*# sourceMappingURL=styles.css.map */

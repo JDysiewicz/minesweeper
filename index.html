@@ -7,16 +7,21 @@
     <title>Minesweeper</title>
 </head>
 <body>
-    <div class="title">
-        <h1 class="test">Minesweeper</h1>
-        <div class="flagButton">
-            <div class="flagText">U</div>
+    <div class="main">
+        <div class="title">
+            <h1 class="test">Minesweeper</h1> <hr>
+            <div class="flagButton">
+                <div class="flagText">U</div>
+            </div>
+            <p> F = in Flagging mode, U = in Uncover mode, Or right click!</p>
+            <div class="timer">
+                <span id="minutes"></span>:<span id="seconds"></span>
+            </div>
         </div>
-        <p> F = in Flagging mode, U = in Uncover mode</p>
-    </div>
-    <div class="gameboard">
-        <table class="grid">
-        </table>
+        <div class="gameboard">
+            <table class="grid">
+            </table>
+        </div>
     </div>
 </body>
 <script src="main.js" type="text/javascript"></script>
