@@ -133,7 +133,7 @@ function gameOver(){
 
 
 // Sets values for the number of adjacent bombs in innerHTML
-function addFlags(rowNo, colNo){
+function addBombCount(rowNo, colNo){
     var cell = document.querySelector(`.row-${rowNo}-col-${colNo}`);
     if (!cell.classList.contains("bomb")){
         cell.classList.add("flag");
@@ -144,11 +144,11 @@ function addFlags(rowNo, colNo){
 
 
 // initiator function that counts the number of bombs adjacent to a tile
-function countFlag(){
+function countBombs(){
     document.querySelectorAll(".bomb").forEach( item => {
         var rowNo = parseInt(item.classList[0].split("-")[1]);
         var colNo = parseInt(item.classList[0].split("-")[3]);
-        selectAdjacentCells(rowNo, colNo, addFlags);
+        selectAdjacentCells(rowNo, colNo, addBombCount);
     });
 };
 
@@ -168,8 +168,8 @@ RunGame();
 // Fills x bombs into the table at random
 populateBombs(bombCount);
 
-// Adds the flags
-countFlag();
+// Adds the bomb count for surrounding tiles via adding 1 to innerhtml of every adjacent tile to a bomb
+countBombs();
 
 
 
