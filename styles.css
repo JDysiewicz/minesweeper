@@ -10,7 +10,7 @@ html {
           align-items: center;
 }
 
-h1 {
+.title {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -20,6 +20,10 @@ h1 {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
 }
 
 .covered {
@@ -31,22 +35,78 @@ h1 {
   cursor: pointer;
 }
 
-.bomb {
-  background: red;
-}
-
 table {
   table-layout: fixed;
   width: 500px;
   height: 250px;
+  border: 5px solid black;
+  border-collapse: collapse;
 }
 
 td {
   display: table-cell;
   border: 1px solid black;
+  font-weight: bold;
 }
 
 td:empty::after {
   content: "\00a0";
+}
+
+.flagButton {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  background-color: blue;
+  border: 2px solid black;
+  width: 30px;
+  height: 30px;
+  margin: 10px;
+  text-align: center;
+  color: white;
+}
+
+.flagButton:hover {
+  cursor: pointer;
+}
+
+.flagText {
+  text-align: center;
+  font-weight: bold;
+}
+
+.flagged {
+  background: blue;
+  color: blue;
+}
+
+.bombUncovered {
+  background: red;
+}
+
+.main {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.gameBoard {
+  width: 500px;
 }
 /*# sourceMappingURL=styles.css.map */

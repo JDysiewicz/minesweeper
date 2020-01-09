@@ -6,11 +6,14 @@ html{
     align-items: center;
 }
 
-h1{
+.title{
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
 }
+
+
 
 .covered{
     background: $cellColorUnc;
@@ -21,22 +24,68 @@ h1{
     }
 }
 
-.bomb{
-    background: red;
-}
+
 
 table{
     table-layout: fixed;
     width: 500px;
     height: 250px;
+    border: 5px solid black;
+    border-collapse: collapse;
 }
 
 td{
     display: table-cell;
     border: 1px solid black;
+    font-weight: bold;
 
     // Prevents collapse of empty cells; all same width/height
     &:empty::after{
         content: "\00a0";
     }
+}
+
+.flagButton{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: blue;
+    border: 2px solid black;
+    width: 30px;
+    height: 30px;
+    margin: 10px;
+    text-align: center;
+    color:white;
+
+    &:hover{
+        cursor: pointer;
+    };
+
+}
+
+.flagText{
+    text-align: center;
+    font-weight: bold;
+}
+// .bomb{
+//     background: black;
+// }
+.flagged{
+    background: blue;
+    color: blue;
+};
+
+.bombUncovered{
+    background: red;
+}
+
+.main{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.gameBoard{
+    width: 500px;
 }

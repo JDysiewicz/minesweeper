@@ -11,7 +11,9 @@ function createNewRow(size){
 // Fuction to reveal a square based on its rowNo/colNo
 function revealCell(rowNo, colNo){
     var boxuncover = document.querySelector(`.row-${rowNo}-col-${colNo}`);
+    if (boxuncover.classList.contains("bomb")){return 1}
 
+    if (boxuncover.classList.contains("flagged")){boxuncover.classList.remove("flagged")}
     if (boxuncover.classList.contains("flag")){
         boxuncover.classList.remove("covered");
         boxuncover.classList.add("uncovered");
@@ -79,7 +81,6 @@ function populateBombs(bombNo){
     while (i < bombNo){
         var rowIdx = Math.floor(Math.random() * size);
         var colIdx = Math.floor(Math.random() * size);
-        console.log(rowIdx, colIdx);
         var bombcell = document.querySelector(`.row-${rowIdx}-col-${colIdx}`);
         if (!bombcell.classList.contains("bomb")){
             bombcell.classList.add("bomb");
@@ -97,22 +98,38 @@ function RunGame(){
         item.addEventListener("click", event =>{
             // BEHAVIOUR WHEN CLICKED HERE
 
-            // If its a bomb then....
-            if (item.classList.contains("bomb")){
-                gameOver();
+            if (inputMode == "flag" && item.classList.contains("covered")){
+                if (flagCount == bombCount && item.classList.contains("flagged")){
+                    item.classList.remove("flagged");
+                    flagCount = document.querySelectorAll(".flagged").length
+                }
+                else if (flagCount < bombCount){
+                    item.classList.toggle("flagged");
+                    flagCount = document.querySelectorAll(".flagged").length
+                    var victoryState = victoryCheck();
+                    if (victoryState == 1){
+                        victory();
+                    }
+                }
             }
-            else if (item.classList.contains("flag")){
-                item.classList.remove("covered")
-                item.classList.add("uncovered")
-            }
-            else if (item.classList.contains("covered")){
-                console.log("safe click")
-                var rowNo = parseInt(item.classList[0].split("-")[1]);
-                var colNo = parseInt(item.classList[0].split("-")[3]);
-                revealCell(rowNo, colNo);
-                selectAdjacentCells(rowNo, colNo, revealCell);
-                
-            }
+
+            else{
+                // If its a bomb then....
+                if (item.classList.contains("bomb")){
+                    gameOver();
+                }
+                else if (item.classList.contains("flag")){
+                    if (item.classList.contains("flagged")){item.classList.remove("flagged")}
+                    item.classList.remove("covered")                        
+                    item.classList.add("uncovered")
+                }
+                else if (item.classList.contains("covered")){
+                    if (item.classList.contains("flagged")){item.classList.remove("flagged")}
+                    var rowNo = parseInt(item.classList[0].split("-")[1]);
+                    var colNo = parseInt(item.classList[0].split("-")[3]);                        revealCell(rowNo, colNo);
+                    selectAdjacentCells(rowNo, colNo, revealCell);    
+                }
+            };
         });
     });
 };
@@ -120,12 +137,34 @@ function RunGame(){
 
 // If clicks on bomb
 function gameOver(){
-    document.querySelectorAll(".covered").forEach(item => {
+    document.querySelectorAll(".bomb").forEach(item => {
         item.classList.remove("covered");
-        item.classList.add("uncovered");
+        item.classList.add("uncovered", "bombUncovered");
+        if (item.classList.contains("flagged")){item.classList.remove("flagged")}
     });
     setTimeout(function(){
         alert("Game Over!");
+        document.location.reload();
+    }, 50);
+    
+};
+
+
+// Checks vicotry criteria (Are all bombs flagged)
+function victoryCheck(){
+    var bombs = document.querySelectorAll(".bomb")
+    var x = 1
+    bombs.forEach(item =>{
+        if(!item.classList.contains("flagged")){x = 0}
+    })
+    return x;
+};
+
+
+// Displays victory screen
+function victory(){
+    setTimeout(function(){
+        alert("Congratuations!");
         document.location.reload();
     }, 50);
     
@@ -153,14 +192,32 @@ function countBombs(){
 };
 
 
+// changes inputmode to flagging when button clicked
+function flagging(){
+    const flagButton = document.querySelector(".flagButton")
+    flagButton.addEventListener("click", function(){
+        if (inputMode == "flag"){
+            flagButton.innerHTML = "U";
+            inputMode = "normal";
+        }
+        else{
+            flagButton.innerHTML = "F";
+            inputMode = "flag";
+        };
+    });
+};
 
-
-// Creates the table
-const size = 15;
+// Initial game parameters
+const size = 20;
 const bombCount = 40;
+var flagCount = 0;
+var inputMode = "normal";
+
+// Creates table
 for (var i = 0; i < size; i++){
     createNewRow(size);
 };
+
 
 // Adds classes to the cells in the table
 RunGame();
@@ -171,9 +228,8 @@ populateBombs(bombCount);
 // Adds the bomb count for surrounding tiles via adding 1 to innerhtml of every adjacent tile to a bomb
 countBombs();
 
-
-
-
+// creates ability to flag mines
+flagging();
 
 
 
