@@ -48,7 +48,7 @@ function selectAdjacentCells(rowNo, colNo, func){
     };
 
     // reveal upper right cell
-    if (rowNo < 8 && colNo < 8){
+    if (rowNo < size-1 && colNo < size-1){
         func(rowNo+1, colNo+1);
     };
 
